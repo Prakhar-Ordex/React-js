@@ -11,7 +11,7 @@ const Topics = () => {
       {/* <Rendering/> */}
       {/* <PassFunction/> */}
       {/* <Style/> */}
-      <Bootstrap/>
+      {/* <Bootstrap/> */}
     </div>
   )
 }
