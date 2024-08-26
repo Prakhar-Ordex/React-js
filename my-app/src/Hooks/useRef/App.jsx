@@ -1,12 +1,14 @@
 import React, { useRef } from 'react'
-import { useReducer } from 'react'
 
 const App = () => {
     const inputRef = useRef(null);
     console.log(inputRef)
 
-    const handleClick = () => {
-        console.log(inputRef.current.value)
+  const handleClick = () => {
+    inputRef.current.focus();
+    //  console.log(inputRef.current) // get the current input element referencein
+      console.log(inputRef.current.value)
+      console.log(inputRef)
     }
   return (
     <div>
