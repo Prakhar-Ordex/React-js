@@ -18,7 +18,7 @@ const App = () => {
   return (
     <div>
           <h4>useMemo Hook in React js</h4>
-          
+          <p>use Memo hook return value</p>
           <div>
               <input type="number" value={num1}  onChange={(e)=> setNum1(Number(e.target.value))}/>
               <input type="number" value={num2} onChange={(e) => setNum2(Number(e.target.value))} />

@@ -7,9 +7,9 @@ import React from 'react'
 // import ReusableComp from './ReusableComp'
 // import Parent from './pass data child to parent/Parent'
 // import Memo from './Memo/Memo'
-import ControllComponent from './ControllComponent'
-import UncontrollComponent from './UncontrollComponent'
-import HigerOrderComp from './HigerOrderComp'
+// import ControllComponent from './ControllComponent'
+// import UncontrollComponent from './UncontrollComponent'
+// import HigerOrderComp from './HigerOrderComp'
 // import PassFunction from './PassFunction'
 // import Rendering from './Rendering'
 
@@ -31,7 +31,7 @@ const Topics = () => {
       {/* <Memo/> */}
       {/* <ControllComponent/> */}
       {/* <UncontrollComponent/> */}
-      <HigerOrderComp/>
+      {/* <HigerOrderComp/> */}
     </div>
   )
 }
