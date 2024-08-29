@@ -1,5 +1,8 @@
 import React from 'react'
-import App from './ContextApi/App'
+// import App from './useTranstion/App'
+// import App from './useSyncExternalStore/App'
+// import App from './useLayoutEffect/App'
+// import App from './ContextApi/App'
 // import App from './useContext/App'
 // import App from './useReducer/App'
 // import App from './useCallback/App'
@@ -13,7 +16,7 @@ const Hooks = () => {
   return (
     <div>
           <h1>Hooks</h1>
-          <App/>
+          {/* <App/> */}
     </div>
   )
 }
