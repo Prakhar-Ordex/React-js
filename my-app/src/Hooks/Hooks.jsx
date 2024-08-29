@@ -1,4 +1,7 @@
 import React from 'react'
+import App from './customHook/App'
+// import App from './useId/App'
+// import App from './useDeferredValue/App'
 // import App from './useTranstion/App'
 // import App from './useSyncExternalStore/App'
 // import App from './useLayoutEffect/App'
@@ -16,7 +19,7 @@ const Hooks = () => {
   return (
     <div>
           <h1>Hooks</h1>
-          {/* <App/> */}
+          <App/>
     </div>
   )
 }
