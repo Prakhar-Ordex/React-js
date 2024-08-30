@@ -41,6 +41,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
+              state={{name:"Prakhar Tripathi"}} 
               to="/service"
               style={({ isActive }) => {
                 return {
