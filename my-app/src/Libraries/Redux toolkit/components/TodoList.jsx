@@ -18,37 +18,8 @@ const TodoList = () => {
   const [newTodo, setNewTodo] = useState("");
 
   const handleClick = () => {
-      if (!newTodo) {
-          toast.error("please fill some text", {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-          });
-          return;
-      } 
-      if (id) {
-          dispatch(editTodo({ id, text: newTodo }));
-          setNewTodo("");
-          setId(0);
-      } else {
-        dispatch(addTodo({ id: Date.now(), text: newTodo }));
-        setNewTodo("");
-      }
-  
-  };
-
-  const handleDelete = (id) => {
-    dispatch(removeTodo(id));
-  };
-
-  const clearAll = () => {
-    if (!data.legnth) {
-      toast.error("No todo to clear", {
+    if (!newTodo) {
+      toast.error("please fill some text", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -60,7 +31,32 @@ const TodoList = () => {
       });
       return;
     }
+    if (id) {
+      dispatch(editTodo({ id, text: newTodo }));
+      setNewTodo("");
+      setId(0);
+    } else {
+      dispatch(addTodo({ id: Date.now(), text: newTodo }));
+      setNewTodo("");
+    }
+  };
+
+  const handleDelete = (id) => {
+    dispatch(removeTodo(id));
+  };
+
+  const clearAll = () => {
     dispatch(clearTodo(null));
+    toast.success("clear succesfully", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   const handleUpdate = (id) => {
