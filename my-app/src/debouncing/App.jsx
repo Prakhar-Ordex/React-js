@@ -4,7 +4,7 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
     const [results, setResults] = useState([]);
-    console.log(results)
+    // console.log(results)
 
   // Debounce the search query
   useEffect(() => {
@@ -28,11 +28,11 @@ const App = () => {
   const fetchResults = async (searchQuery) => {
     // Replace this with your actual API call
     const response = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${searchQuery}`
+      `https://jsonplaceholder.typicode.com/comments?postId=${searchQuery}`
     );
       const data = await response.json();
       console.log(data)
-    setResults([data]);
+    setResults(data);
   };
 
   return (
@@ -47,7 +47,10 @@ const App = () => {
         />
         <ul>
           {results?.map((result, index) => (
-            <li key={index}>{result.title}</li>
+              <ul key={index}>
+                  <li>{result?.id}</li>
+                  <li>{result?.name}</li>
+            </ul>
           ))}
         </ul>
       </div>
