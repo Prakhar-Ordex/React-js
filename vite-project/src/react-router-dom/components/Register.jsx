@@ -11,7 +11,7 @@ const Register = () => {
     password: "",
     avatar: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  
   const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -149,6 +149,7 @@ const Register = () => {
 
           <div className="!mt-12">
             <button
+              disabled={loading}
               type="submit"
               className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
             >

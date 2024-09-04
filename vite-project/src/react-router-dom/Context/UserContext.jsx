@@ -4,7 +4,7 @@ export const UserData = createContext();
 
 const UserContext = ({children}) => {
   const [user, setUser] = useState({});
-  console.log(user)
+  // console.log(user)
   return (
     <UserData.Provider value={{ user, setUser }}>
       {children}
