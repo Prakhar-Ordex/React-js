@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import {toast} from 'react-toastify'
 import { Link, useNavigate } from "react-router-dom";
+import { UserData } from "../Context/UserContext";
+import Password from "./Password";
 
 function Longin() {
   const navigate = useNavigate();
+  const { user, setIsLoggedIn,setLoginUser } = useContext(UserData);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -16,30 +20,54 @@ function Longin() {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-  const userLogin = async () => {
-    setLoading(true);
-    try {
-      const login = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+  // const userLogin = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const login = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(userData),
+  //     });
 
-      const response = await login.json();
+  //     const response = await login.json();
 
-      if (!login.ok) {
-        throw new Error(`login failed: ${login.status}`);
+  //     if (!login.ok) {
+  //       throw new Error(`login failed: ${login.status}`);
+  //     }
+  //     localStorage.setItem("user-token", JSON.stringify(response.access_token));
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.log(`error: ${error}`);
+  //     alert("error: ${error}");
+  //   } finally {
+  //       setLoading(false)
+  //     }
+  // };
+
+  const userLogin = () => {
+    if (user) {
+      let findUser = user.find((item) => item.email === userData.email);
+      if (findUser) {
+        if (
+          findUser.email === userData.email &&
+          findUser.password === userData.password
+        ) {
+          setIsLoggedIn(true);
+          localStorage.setItem('loginUser', JSON.stringify(findUser));
+          setLoginUser(findUser)
+          navigate("/");
+        } else {
+          toast.warn('Email or Password incorrect');
+        }
+      } else {
+        toast.warn('this email id not register  ');
       }
-      localStorage.setItem("user-token", JSON.stringify(response.access_token));
-      navigate("/");
-    } catch (error) {
-      console.log(`error: ${error}`);
-      alert("error: ${error}");
-    } finally {
-        setLoading(false)
-      }
+    } else {
+      alert("you are not  register ");
+      navigate("/register");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -93,14 +121,10 @@ function Longin() {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                  <Password
                     onChange={handleInputChange}
                     value={userData.password}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   />
                   <span className="text-red-500 bold">
                     {errors.password && errors.password}
@@ -127,7 +151,7 @@ function Longin() {
                     to="/register"
                     className="font-medium text-primary-600 hover:underline "
                   >
-                   Sign up
+                    Sign up
                   </Link>
                 </p>
               </form>

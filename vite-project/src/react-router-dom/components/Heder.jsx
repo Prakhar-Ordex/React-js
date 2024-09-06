@@ -4,50 +4,49 @@ import HoverUser from "./HoverUser";
 import { UserData } from "../Context/UserContext";
 
 const Heder = () => {
-  const {user,setUser} = useContext(UserData)
+  const {isLoggedIn,setIsLoggedIn,logginUser,setLoginUser} = useContext(UserData)
   const [isHovered, setIsHovered] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   const navigate = useNavigate();
-
-  const userFetchData = async () => {
-    const userToken = JSON.parse(localStorage.getItem("user-token"));
-    if (!userToken) {
-      setIsLoggedIn(false);
-      return;
-    }
-    try {
-      const user = await fetch(
-        " https://api.escuelajs.co/api/v1/auth/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      if (!user.ok) {
-        console.log("User not found");
-        localStorage.removeItem("user-token");
-        setIsLoggedIn(false);
-        return;
-      }
-      const data = await user.json();
-      setUser(data)
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.log(`Something went wrong : ${error}`);
-      setIsLoggedIn(false);
-    }
-  };
-  useEffect(() => {
-    userFetchData();
-  }, [navigate]);
+  // const userFetchData = async () => {
+  //   const userToken = JSON.parse(localStorage.getItem("user-token"));
+  //   if (!userToken) {
+  //     setIsLoggedIn(false);
+  //     return;
+  //   }
+  //   try {
+  //     const user = await fetch(
+  //       " https://api.escuelajs.co/api/v1/auth/profile",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${userToken}`,
+  //         },
+  //       }
+  //     );
+  //     if (!user.ok) {
+  //       console.log("User not found");
+  //       localStorage.removeItem("user-token");
+  //       setIsLoggedIn(false);
+  //       return;
+  //     }
+  //     const data = await user.json();
+  //     setUser(data)
+  //     setIsLoggedIn(true);
+  //   } catch (error) {
+  //     console.log(`Something went wrong : ${error}`);
+  //     setIsLoggedIn(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   userFetchData();
+  // }, [navigate]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
   const handleLogout = () => {
-    localStorage.removeItem("user-token");
-    setUser({});
+    localStorage.removeItem("loginUser");
+    setLoginUser(null);
     setIsLoggedIn(false);
     navigate("/login");
   };
@@ -71,7 +70,7 @@ const Heder = () => {
                     onMouseEnter={handleMouseEnter}
                   >
                     <img
-                      src={user?.avatar}
+                      src={logginUser?.avatar}
                       alt="img"
                       className="h-full w-full object-contain rounded-full"
                     />
@@ -88,16 +87,15 @@ const Heder = () => {
               {isHovered && (
                 <HoverUser
                   setIsHovered={setIsHovered}
-                  userData={user}
-                  setUserData={setUser}
+                  userData={logginUser}
                   handleLogout={handleLogout}
                 />
               )}
               {/* <HoverUser/> */}
             </div>
             <div
-              className=" justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
-              id="mobile-menu-2"
+              className=" justify-between items-center lg:flex w-auto lg:order-1"
+              // id="mobile-menu-2"
             >
               <ul className="flex flex-col mt-4 font-medium md:flex-row lg:space-x-8 lg:mt-0">
                 <li>
@@ -158,6 +156,18 @@ const Heder = () => {
                     }
                   >
                     Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/users"
+                    className={({ isActive }) =>
+                      `block py-2 pr-4 pl-3 duration-200 ${
+                        isActive ? "text-orange-700" : "text-gray-700"
+                      } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
+                    }
+                  >
+                    Users
                   </NavLink>
                 </li>
                 {!isLoggedIn  && (

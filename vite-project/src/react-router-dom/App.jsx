@@ -12,6 +12,7 @@ import ProtectRout from "./components/ProtectedRoute";
 import Register from "./components/Register";
 import UserContext from "./Context/UserContext";
 import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
 
 const App = () => {
   return (
@@ -33,7 +34,15 @@ const App = () => {
               />
               <Route
                 path="profile"
-                element={<Profile/>}
+                element={<ProtectRout Component={Profile} />}
+              />
+              <Route
+                path="edit/:id"
+                element={<ProtectRout Component={EditProfile} />}
+              />
+              <Route
+                path="users"
+                element={<ProtectRout Component={User} />}
               />
               <Route path="login" element={<Longin />} />
               <Route path="register" element={<Register />} />

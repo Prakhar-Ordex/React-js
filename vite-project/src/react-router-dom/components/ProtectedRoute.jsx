@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function ProtectRout({ Component }) {
+    const loggin = localStorage.getItem('loginUser')
     const navigate = useNavigate()
     useEffect(() => {
-        let login = localStorage.getItem("user-token")
-        if(!login){
+        if(!loggin){
             navigate('/login')
         }
     },[navigate])

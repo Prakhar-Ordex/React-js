@@ -1,70 +1,61 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserData } from "../Context/UserContext";
+import React, { useContext, useEffect, useState } from "react";
 import Password from "./Password";
+import { useNavigate, useParams } from "react-router-dom";
 import { validateForm } from "../utils/validation";
+import { toast } from "react-toastify";
+import { UserData } from "../Context/UserContext";
 
-const Register = () => {
+const EditProfile = () => {
+  const { setLoginUser, logginUser, setUser } = useContext(UserData);
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { setUser , user} = useContext(UserData);
-  const [newUser, setNewUser] = useState({
+  let allUser = JSON.parse(localStorage.getItem("user"));
+
+  const [editData, setEditData] = useState({
     name: "",
-    email: "",
-    password: "",
     avatar: "",
+    password: "",
+    email: "",
   });
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    setEditData({ ...editData, [e.target.name]: e.target.value });
   };
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formErrors = validateForm(newUser);
+    const formErrors = validateForm(editData);
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-    registerUser(newUser);
-  };
-
-  const registerUser = async (newUser) => {
-    try {
-      setLoading(true);
-      const response = await fetch("https://api.escuelajs.co/api/v1/users/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-      }
-
-      const userData = await response.json();
-      const userArray = user ? [...user,userData] : [userData]
-      setUser(userArray);
-      localStorage.setItem("user", JSON.stringify(userArray));
-      navigate("/login");
-    } catch (error) {
-      console.error("Failed to register user:", error.message);
-      alert("Something went wrong");
-      throw error;
-    } finally {
-      setLoading(false);
+    const { name, avatar, password } = editData;
+    const updatedUser = allUser.map((item) =>
+      item.id === Number(id) ? { ...item, name, avatar, password } : item
+    );
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    if (logginUser.id === Number(id)) {
+      setLoginUser(editData);
+      localStorage.setItem("loginUser", JSON.stringify(editData));
+      navigate("/profile");
+    } else {
+      navigate("/users");
     }
+    setErrors({});
+    toast.success("data updated successfully");
   };
-  
+
+  useEffect(() => {
+    const data = allUser.find((item) => item.id === Number(id));
+    setEditData(data);
+  }, [id]);
   return (
     <div>
       <div className="max-w-4xl mx-auto font-[sans-serif] p-6">
         <div className="text-center mb-16">
           <h4 className="text-gray-800 text-base font-semibold mt-6">
-            Sign up into your account
+            Edit into your account
           </h4>
         </div>
 
@@ -77,7 +68,7 @@ const Register = () => {
                 type="text"
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter name"
-                value={newUser.name}
+                value={editData.name}
                 onChange={handleChange}
               />
               {errors.name && (
@@ -90,11 +81,12 @@ const Register = () => {
                 Email Id
               </label>
               <input
+                disabled={true}
                 name="email"
                 type="text"
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter email"
-                value={newUser.email}
+                value={editData.email}
                 onChange={handleChange}
               />
               {errors.email && (
@@ -107,7 +99,7 @@ const Register = () => {
                 Password
               </label>
               <Password
-                value={newUser.password}
+                value={editData.password}
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter password"
                 onChange={handleChange}
@@ -122,7 +114,7 @@ const Register = () => {
               <input
                 name="avatar"
                 type="text"
-                value={newUser.avatar}
+                value={editData.avatar}
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter confirm password"
                 onChange={handleChange}
@@ -132,23 +124,12 @@ const Register = () => {
               )}
             </div>
           </div>
-          <p className="text-sm font-light text-gray-500 ">
-            Don’t have an account yet?{" "}
-            <Link
-              to="/login"
-              className="font-medium text-primary-600 hover:underline "
-            >
-              Sign in
-            </Link>
-          </p>
-
           <div className="!mt-12">
             <button
-              disabled={loading}
               type="submit"
               className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
             >
-              {loading ? "Loading..." : "Sign up"}
+              Update
             </button>
           </div>
         </form>
@@ -157,4 +138,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default EditProfile;
