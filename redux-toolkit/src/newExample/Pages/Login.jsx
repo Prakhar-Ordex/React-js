@@ -1,89 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-import { UserData } from "../Context/UserContext";
-import Password from "./Password";
+import React from "react";
+import Password from "../Components/Password";
+import { Link } from "react-router-dom";
 
-function Longin() {
-  const navigate = useNavigate();
-  const { user, setIsLoggedIn, setLoginUser } = useContext(UserData);
-  const [userData, setUserData] = useState({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
-  // const [loading, setLoading] = useState(false);
-  // const userLogin = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const login = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(userData),
-  //     });
-
-  //     const response = await login.json();
-
-  //     if (!login.ok) {
-  //       throw new Error(`login failed: ${login.status}`);
-  //     }
-  //     localStorage.setItem("user-token", JSON.stringify(response.access_token));
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log(`error: ${error}`);
-  //     alert("error: ${error}");
-  //   } finally {
-  //       setLoading(false)
-  //     }
-  // };
-
-  const userLogin = () => {
-    if (user) {
-      let findUser = user.find((item) => item.email === userData.email);
-      if (findUser) {
-        if (
-          findUser.email === userData.email &&
-          findUser.password === userData.password
-        ) {
-          setIsLoggedIn(true);
-          localStorage.setItem("loginUser", JSON.stringify(findUser));
-          setLoginUser(findUser);
-          navigate("/");
-        } else {
-          toast.warn("Email or Password incorrect");
-        }
-      } else {
-        toast.warn("this email id not register");
-      }
-    } else {
-      alert("you are not  register ");
-      navigate("/register");
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!userData.email) {
-      setErrors({ ...errors, email: "Email is required" });
-    } else if (!/^\S+@\S+\.\S+$/.test(userData.email)) {
-      setErrors({ ...errors, email: "Email address is invalid" });
-    } else if (!userData.password) {
-      setErrors({ ...errors, password: "Password is required" });
-    } else {
-      setErrors({ email: "", password: "" });
-      userLogin();
-    }
-  };
-
+const Login = () => {
+    const userData = []
+    const errors = {}
+    
+    const handleInputChange = () => {}
+    const handleSubmit = (req, res) => { }
   return (
     <div>
       <section className="bg-gray-50 ">
@@ -132,14 +56,13 @@ function Longin() {
                 </div>
                 <div className="flex items-center justify-between">
                   {/* <a
-                    href="#"
-                    className="text-sm font-medium text-primary-600 hover:underline "
-                  >
-                    Forgot password?
-                  </a> */}
+                  href="#"
+                  className="text-sm font-medium text-primary-600 hover:underline "
+                >
+                  Forgot password?
+                </a> */}
                 </div>
                 <button
-                  
                   type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-400"
                 >
@@ -161,6 +84,6 @@ function Longin() {
       </section>
     </div>
   );
-}
+};
 
-export default Longin;
+export default Login;

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { UserData } from "../Context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 
 const Profile = () => {

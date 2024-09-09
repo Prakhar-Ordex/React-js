@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
-import { UserData } from "../Context/UserContext";
 import { Link } from "react-router-dom";
 
 const User = () => {
-  const { user, deleteAccount } = useContext(UserData);
   return (
     <div>
       <ul role="list" className="divide-y divide-gray-100">
