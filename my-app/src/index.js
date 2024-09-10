@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { ToastContainer } from 'react-toastify';
-// import App from './App';
+import App from './App';
 // import App from './react-router-dom/App';
 // import App from './Libraries/Axios/App';
 // import App from './Libraries/Redux toolkit/App'
 
 import 'react-toastify/dist/ReactToastify.css';
-import App from './debouncing/App';
+// import App from './debouncing/App';
 // import App from './questions1/App';
 
 

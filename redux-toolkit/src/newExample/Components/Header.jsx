@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import HoverUser from "./HoverUser";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-    const isLoggedIn = false;
-    const isHovered = false;
+  const [isHovered, setIsHovered] = useState(false);
+  const {loginUser} = useSelector(state => state.users)
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
   return (
     <div>
       <header className="shadow sticky z-50 top-0">
@@ -17,15 +21,15 @@ const Header = () => {
                 alt="Logo"
               />
             </Link>
-            <div className="flex items-center lg:order-2">
-              {isLoggedIn ? (
+            <div className="flex items-center md:order-2">
+              {loginUser ? (
                 <>
                   <span
                     className=" bg-blue-300 rounded-full text-2xl h-12 w-12"
                     onMouseEnter={handleMouseEnter}
                   >
                     <img
-                      src={logginUser?.avatar}
+                      src={loginUser?.avatar}
                       alt="img"
                       className="h-full w-full object-contain rounded-full"
                     />
@@ -42,14 +46,13 @@ const Header = () => {
               {isHovered && (
                 <HoverUser
                   setIsHovered={setIsHovered}
-                  userData={logginUser}
-                  handleLogout={handleLogout}
+                  userData={loginUser}
                 />
               )}
               {/* <HoverUser/> */}
             </div>
             <div
-              className=" justify-between items-center lg:flex w-auto lg:order-1"
+              className=" justify-between items-center lg:flex w-auto md:order-1"
               // id="mobile-menu-2"
             >
               <ul className="flex flex-col mt-4 font-medium md:flex-row lg:space-x-8 lg:mt-0">
@@ -125,7 +128,7 @@ const Header = () => {
                     Users
                   </NavLink>
                 </li>
-                {!isLoggedIn && (
+                {!loginUser && (
                   <li>
                     <NavLink
                       to="/login"

@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import Password from "../Components/Password";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { fetchUsers } from "../Redux/user/userSlice";
+import { validateForm } from "../utils/validation";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { isLoading, users } = useSelector((state) => state.users);
+
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
@@ -13,10 +20,33 @@ const Register = () => {
   const handleChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
-  const handleSubmit = () => {};
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formErrors = validateForm(newUser);
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+    // Check if the user already exists
+    if (users.some((user) => user.email === newUser.email)) {
+      alert("Email already exists");
+      navigate("/login");
+      return;
+    }
+    
+    try {
+      // Await the dispatch to ensure it's finished before navigating
+      await dispatch(fetchUsers(newUser));
+      
+      // Navigate only after the user has been successfully registered
+      navigate("/users");
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
+  };
+  
 
-  const errors = [];
-  const loading = [];
   return (
     <div>
       <div className="max-w-4xl mx-auto font-[sans-serif] p-6">
@@ -102,11 +132,11 @@ const Register = () => {
 
           <div className="!mt-12">
             <button
-              disabled={loading}
+              disabled={isLoading}
               type="submit"
               className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
             >
-              {loading ? "Loading..." : "Sign up"}
+              {isLoading ? "Loading..." : "Sign up"}
             </button>
           </div>
         </form>

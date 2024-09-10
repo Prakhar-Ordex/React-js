@@ -1,13 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import Password from "../Components/Password";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../Redux/user/userSlice";
 
 const Login = () => {
-    const userData = []
-    const errors = {}
-    
-    const handleInputChange = () => {}
-    const handleSubmit = (req, res) => { }
+  const { users } = useSelector(state => state.users)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!userData.email) {
+      setErrors({ ...errors, email: "Email is required" });
+    } else if (!/^\S+@\S+\.\S+$/.test(userData.email)) {
+      setErrors({ ...errors, email: "Email address is invalid" });
+    } else if (!userData.password) {
+      setErrors({ ...errors, password: "Password is required" });
+    } else {
+      setErrors({ email: "", password: "" });
+      userLogin();
+    }
+  };
+  const userLogin = () => {
+    if (users) {
+      let findUser = users.find((item) => item.email === userData.email);
+      if (findUser) {
+        if (
+          findUser.email === userData.email &&
+          findUser.password === userData.password
+        ) {
+          dispatch(loginUser(findUser))
+          navigate("/profile");
+        } else {
+          alert("Email or Password incorrect");
+        }
+      } else {
+        alert("this email id not register");
+      }
+    } else {
+      alert("you are not  register ");
+      navigate("/register");
+    }
+  };
   return (
     <div>
       <section className="bg-gray-50 ">

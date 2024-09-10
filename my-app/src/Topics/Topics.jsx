@@ -1,5 +1,5 @@
 import React from 'react'
-import App from './FetchApi/App'
+// import App from './FetchApi/App'
 // import Style from './Style/Style'
 // import Bootstrap from './Bootstrap/Bootstrap'
 // import Array from './Array'
@@ -33,7 +33,7 @@ const Topics = () => {
       {/* <ControllComponent/> */}
       {/* <UncontrollComponent/> */}
       {/* <HigerOrderComp/> */}
-      <App/>
+      {/* <App/> */}
     </div>
   )
 }

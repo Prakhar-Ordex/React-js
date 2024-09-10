@@ -5,10 +5,8 @@ const Child = ({incremnt }) => {
   return (
     <div>
           <h3>Child Component</h3>
-          
           <button onClick={incremnt}>Child Button </button>
     </div>
   )
 }
-
 export default Child

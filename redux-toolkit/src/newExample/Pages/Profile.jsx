@@ -1,18 +1,25 @@
 import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import { logoutUser } from "../Redux/user/userSlice";
 
 const Profile = () => {
-  const { setIsLoggedIn, logginUser, deleteAccount } = useContext(UserData);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {loginUser} = useSelector(state => state.users)
+  // const deleteProfile = () => {
+  //   let confirm = window.confirm("Are you sure you want to delete");
+  //   if (confirm) {
+  //     deleteAccount(loginUser.id);
+  //     localStorage.removeItem("loginUser");
+  //     navigate("/register");
+  //     setIsLoggedIn(false);
+  //   } 
+  // };
   const deleteProfile = () => {
-    let confirm = window.confirm("Are you sure you want to delete");
-    if (confirm) {
-      deleteAccount(logginUser.id);
-      localStorage.removeItem("loginUser");
-      navigate("/register");
-      setIsLoggedIn(false);
-    } 
-  };
+    dispatch(logoutUser())
+    navigate("/register");
+  }
   return (
     <div>
       <div className="bg-gray-300">
@@ -21,28 +28,28 @@ const Profile = () => {
           You can see your personal details here.
         </p>
       </div>
-      <div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-3 bg-white shadow-xl rounded-lg text-gray-900">
-        <div class="rounded-t-lg h-32 overflow-hidden">
+      <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-3 bg-white shadow-xl rounded-lg text-gray-900">
+        <div className="rounded-t-lg h-32 overflow-hidden">
           <img
-            class="object-cover object-top w-full"
+            className="object-cover object-top w-full"
             src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
             alt="Mountain"
           />
         </div>
-        <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+        <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
           <img
-            class="object-cover object-center h-32"
-            src={logginUser?.avatar}
+            className="object-cover object-center h-32"
+            src={loginUser?.avatar}
           />
         </div>
-        <div class="text-center mt-2">
-          <h2 class="font-semibold">{logginUser?.name}</h2>
-          <p class="text-gray-500">{logginUser?.email}</p>
+        <div className="text-center mt-2">
+          <h2 className="font-semibold">{loginUser?.name}</h2>
+          <p className="text-gray-500">{loginUser?.email}</p>
         </div>
-        <ul class="py-4 mt-2 text-gray-700 flex items-center justify-around">
-          <li class="flex flex-col items-center justify-around">
+        <ul className="py-4 mt-2 text-gray-700 flex items-center justify-around">
+          <li className="flex flex-col items-center justify-around">
             <svg
-              class="w-4 fill-current text-blue-900"
+              className="w-4 fill-current text-blue-900"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -50,9 +57,9 @@ const Profile = () => {
             </svg>
             <div>2k</div>
           </li>
-          <li class="flex flex-col items-center justify-between">
+          <li className="flex flex-col items-center justify-between">
             <svg
-              class="w-4 fill-current text-blue-900"
+              className="w-4 fill-current text-blue-900"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -60,9 +67,9 @@ const Profile = () => {
             </svg>
             <div>10k</div>
           </li>
-          <li class="flex flex-col items-center justify-around">
+          <li className="flex flex-col items-center justify-around">
             <svg
-              class="w-4 fill-current text-blue-900"
+              className="w-4 fill-current text-blue-900"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
             >
@@ -71,15 +78,15 @@ const Profile = () => {
             <div>15</div>
           </li>
         </ul>
-        <div class="p-4 border-t mx-8 mt-2 flex justify-between">
+        <div className="p-4 border-t mx-8 mt-2 flex justify-between">
           <Link
-            class="w-1/2 block mx-auto rounded-full bg-blue-900 hover:shadow-lg font-semibold text-white px-6 py-2 text-center"
-            to={`/edit/${logginUser?.id}`}
+            className="w-1/2 block mx-auto rounded-full bg-blue-900 hover:shadow-lg font-semibold text-white px-6 py-2 text-center"
+            to={`/edit/${loginUser?.id}`}
           >
             Edit
           </Link>
           <button
-            class="w-1/2 block mx-auto rounded-full bg-red-900 hover:shadow-lg font-semibold text-white px-6 py-2"
+            className="w-1/2 block mx-auto rounded-full bg-red-900 hover:shadow-lg font-semibold text-white px-6 py-2"
             onClick={deleteProfile}
           >
             Delete

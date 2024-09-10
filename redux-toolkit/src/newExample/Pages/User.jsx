@@ -1,11 +1,16 @@
 import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteUserData } from "../Redux/user/userSlice";
 
 const User = () => {
+  const dispatch = useDispatch()
+  const { users } = useSelector((state) => state.users);
+
   return (
-    <div>
+    <div className="min-h-screen">
       <ul role="list" className="divide-y divide-gray-100">
-        {user?.map((person) => (
+        {users?.map((person) => (
           <li key={person.email} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
               <img
@@ -34,7 +39,7 @@ const User = () => {
                   Edit
                 </Link>
                 <button
-                  onClick={() => deleteAccount(person.id)}
+                  onClick={() => dispatch(deleteUserData(person.id))}
                   className="bg-red-500 rounded-md p-0.5 m-1 text-white bold text-xl"
                 >
                   delete
@@ -44,6 +49,11 @@ const User = () => {
           </li>
         ))}
       </ul>
+      {!users && (
+        <div className="h-screen">
+          <h1 className="m-auto  text-center p-2 text-2xl font-bold" >No Users Available</h1>
+        </div>
+      )}
     </div>
   );
 };

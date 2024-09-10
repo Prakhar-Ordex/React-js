@@ -32,9 +32,9 @@ const App = () => {
             />
             <Route
               path="edit/:id"
-              element={<ProtectedRoute Component={EditProfile} />}
+              element={<EditProfile />}
             />
-            <Route path="users" element={<ProtectedRoute Component={User} />} />
+            <Route path="users" element={<User/>} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>

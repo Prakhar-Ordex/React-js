@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState,useEffect } from 'react'
 
 const App = () => {
     const [num1,setNum1] = useState()
@@ -13,7 +13,12 @@ const App = () => {
     const sum = useMemo(() => {
         console.log("calculating sum ....")
         return num1 + num2;
-    },[num1,num2])
+  },[num1,num2])
+  
+  // useEffect(() => {
+  // sum()
+  // }, [num1,num2])
+  
     
   return (
     <div>
