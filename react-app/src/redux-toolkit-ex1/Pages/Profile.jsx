@@ -21,8 +21,8 @@ const Profile = () => {
     navigate("/register");
   }
   return (
-    <div>
-      <div className="bg-gray-300">
+    <div className="min-h-screen">
+      <div className="">
         <h1 className="text-center font-bold text-2xl">User Details</h1>
         <p className="text-center text-gray-600">
           You can see your personal details here.
@@ -33,7 +33,7 @@ const Profile = () => {
           <img
             className="object-cover object-top w-full"
             src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-            alt="Mountain"
+            alt="Mountain" 
           />
         </div>
         <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
