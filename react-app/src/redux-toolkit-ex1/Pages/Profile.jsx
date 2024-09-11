@@ -7,15 +7,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {loginUser} = useSelector(state => state.users)
-  // const deleteProfile = () => {
-  //   let confirm = window.confirm("Are you sure you want to delete");
-  //   if (confirm) {
-  //     deleteAccount(loginUser.id);
-  //     localStorage.removeItem("loginUser");
-  //     navigate("/register");
-  //     setIsLoggedIn(false);
-  //   } 
-  // };
   const deleteProfile = () => {
     dispatch(logoutUser())
     navigate("/register");
@@ -34,6 +25,7 @@ const Profile = () => {
             className="object-cover object-top w-full"
             src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
             alt="Mountain" 
+            loading="lazy"
           />
         </div>
         <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">

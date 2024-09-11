@@ -3,49 +3,38 @@ import Password from "../Components/Password";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchUsers } from "../Redux/user/userSlice";
-import { validateForm } from "../utils/validation";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { isLoading, users } = useSelector((state) => state.users);
-
+  const { users } = useSelector((state) => state.users);
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({});
-  const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    avatar: "",
-  });
-  const handleChange = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
-  };
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formErrors = validateForm(newUser);
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      return;
-    }
-    // Check if the user already exists
-    if (users.some((user) => user.email === newUser.email)) {
-      alert("Email already exists");
-      navigate("/login");
-      return;
-    }
-    
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm();
+
+
+  const onSubmit = async (data) => {
+    if (users) {
+      if (users?.some((user) => user.email === data.email)) {
+        alert("Email already exists");
+        navigate("/login");
+        return;
+      }
+   }
     try {
-      // Await the dispatch to ensure it's finished before navigating
-      await dispatch(fetchUsers(newUser));
-      
-      // Navigate only after the user has been successfully registered
+      await dispatch(fetchUsers(data));
+      reset();
       navigate("/users");
     } catch (error) {
+      setError("err", { message: "Error registering user:" });
       console.error("Error registering user:", error);
     }
   };
-  
 
   return (
     <div>
@@ -56,7 +45,7 @@ const Register = () => {
           </h4>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid sm:grid-cols-2 gap-8">
             <div>
               <label className="text-gray-800 text-sm mb-2 block"> Name</label>
@@ -65,11 +54,13 @@ const Register = () => {
                 type="text"
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter name"
-                value={newUser.name}
-                onChange={handleChange}
+                {...register("name", {
+                  required: { value: true, message: "Name is required" },
+                  minLength: { value: 3, message: "Min lenght 3" },
+                })}
               />
               {errors.name && (
-                <p className="text-red-500 text-sm">{errors.name}</p>
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
               )}
             </div>
 
@@ -82,11 +73,17 @@ const Register = () => {
                 type="text"
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter email"
-                value={newUser.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: { value: true, message: "Emial is required" },
+                  minLength: { value: 3, message: "Min lenght 3" },
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Invalid email address",
+                  },
+                })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
               )}
             </div>
 
@@ -95,14 +92,23 @@ const Register = () => {
                 Password
               </label>
               <Password
-                value={newUser.password}
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter password"
-                onChange={handleChange}
+                handleInput={register("password", {
+                  required: { value: true, message: "passworde is required" },
+                  minLength: { value: 6, message: "Min lenght 6" },
+                  pattern: {
+                    value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                    message:
+                      "Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, and a number",
+                  },
+                })}
               />
               {/* <input name="password" type="password" /> */}
               {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
               )}
             </div>
             <div>
@@ -110,13 +116,15 @@ const Register = () => {
               <input
                 name="avatar"
                 type="text"
-                value={newUser.avatar}
                 className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                 placeholder="Enter confirm password"
-                onChange={handleChange}
+                {...register("avatar", {
+                  required: { value: true, message: "Avatar is required" },
+                  minLength: { value: 3, message: "Min lenght 3" },
+                })}
               />
               {errors.avatar && (
-                <p className="text-red-500 text-sm">{errors.avatar}</p>
+                <p className="text-red-500 text-sm">{errors.avatar.message}</p>
               )}
             </div>
           </div>
@@ -132,11 +140,11 @@ const Register = () => {
 
           <div className="!mt-12">
             <button
-              disabled={isLoading}
+              disabled={isSubmitting}
               type="submit"
               className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
             >
-              {isLoading ? "Loading..." : "Sign up"}
+              {isSubmitting ? "Loading..." : "Sign up"}
             </button>
           </div>
         </form>

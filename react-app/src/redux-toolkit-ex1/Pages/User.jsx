@@ -6,12 +6,13 @@ import { deleteUserData } from "../Redux/user/userSlice";
 const User = () => {
   const dispatch = useDispatch()
   const { users } = useSelector((state) => state.users);
+  
 
   return (
     <div className="min-h-screen">
       <ul role="list" className="divide-y divide-gray-100">
         {users?.map((person) => (
-          <li key={person.email} className="flex justify-between gap-x-6 py-5">
+          <li key={person?.email} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
               <img
                 alt=""
@@ -29,7 +30,7 @@ const User = () => {
             </div>
             <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
               <p className="text-sm leading-6 text-gray-900 p-2">
-                {person.role}
+                {person?.role}
               </p>
               <div>
                 <Link
@@ -39,7 +40,7 @@ const User = () => {
                   Edit
                 </Link>
                 <button
-                  onClick={() => dispatch(deleteUserData(person.id))}
+                  onClick={() => dispatch(deleteUserData(person?.id))}
                   className="bg-red-500 rounded-md p-0.5 m-1 text-white bold text-xl"
                 >
                   delete

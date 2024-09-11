@@ -6,8 +6,9 @@ export default function App() {
     handleSubmit,
     watch,
     setError,
-    formState: { errors },
+    formState: { errors,isSubmitting   },
   } = useForm();
+  console.log(isLoading)
   const onSubmit = (data) => {
     // setError("data", { message: "not found" })
     console.log(data)

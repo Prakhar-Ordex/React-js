@@ -3,57 +3,41 @@ import Password from "../Components/Password";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../Redux/user/userSlice";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { users } = useSelector(state => state.users)
+  const { users } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!userData.email) {
-      setErrors({ ...errors, email: "Email is required" });
-    } else if (!/^\S+@\S+\.\S+$/.test(userData.email)) {
-      setErrors({ ...errors, email: "Email address is invalid" });
-    } else if (!userData.password) {
-      setErrors({ ...errors, password: "Password is required" });
-    } else {
-      setErrors({ email: "", password: "" });
-      userLogin();
-    }
-  };
-  const userLogin = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+  const onSubmit = (data) => {
     if (users) {
-      let findUser = users.find((item) => item.email === userData.email);
+      let findUser = users.find((item) => item.email === data.email);
       if (findUser) {
         if (
-          findUser.email === userData.email &&
-          findUser.password === userData.password
+          findUser.email === data.email &&
+          findUser.password === data.password
         ) {
-          dispatch(loginUser(findUser))
+          dispatch(loginUser(findUser));
           navigate("/profile");
         } else {
           alert("Email or Password incorrect");
         }
       } else {
         alert("this email id not register");
+        navigate("/register");
       }
     } else {
       alert("you are not  register ");
       navigate("/register");
     }
   };
+
   return (
     <div>
       <section className="bg-gray-50 ">
@@ -63,7 +47,10 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleSubmit(onSubmit)}
+              >
                 <div>
                   <label
                     htmlFor="email"
@@ -75,13 +62,19 @@ const Login = () => {
                     type="text"
                     name="email"
                     id="email"
-                    value={userData.email}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
                     placeholder="name@company.com"
-                    onChange={handleInputChange}
+                    {...register("email", {
+                      required: { value: true, message: "Emial is required" },
+                      minLength: { value: 3, message: "Min lenght 3" },
+                      pattern: {
+                        value: /^\S+@\S+\.\S+$/,
+                        message: "Invalid email address",
+                      },
+                    })}
                   />
                   <span className="text-red-500 bold">
-                    {errors.email && errors.email}
+                    {errors.email && errors.email.message}
                   </span>
                 </div>
                 <div>
@@ -92,12 +85,22 @@ const Login = () => {
                     Password
                   </label>
                   <Password
-                    onChange={handleInputChange}
-                    value={userData.password}
+                    handleInput={register("password", {
+                      required: {
+                        value: true,
+                        message: "passworde is required",
+                      },
+                      minLength: { value: 6, message: "Min lenght 6" },
+                      pattern: {
+                        value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                        message:
+                          "Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, and a number",
+                      },
+                    })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   />
                   <span className="text-red-500 bold">
-                    {errors.password && errors.password}
+                    {errors.password && errors.password.message}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

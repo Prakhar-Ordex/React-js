@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
-const Password = ({ className, onChange, value,placeholder="••••••••" }) => {
+const Password = ({ className, handleInput ,placeholder="••••••••" }) => {
   const [toggle, setToggle] = useState(false);
   return (
     <>
       <div className="relative ">
-        <input
+        <input  
           name="password"
-          onChange={onChange}
-          value={value}
+          {...handleInput}
           id="password"
           placeholder={placeholder}
           type={toggle ? "text" : "password"}
