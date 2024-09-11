@@ -21,8 +21,12 @@ const Page = () => {
       >
         -
       </button>
-
-      <button className="bg-red-200 p-2 rounded-md" onClick={() => dispatch(reset())}>Reset</button>
+      <button
+        className="bg-red-200 p-2 rounded-md"
+        onClick={() => dispatch(reset())}
+      >
+        Reset
+      </button>
     </div>
   );
 };
