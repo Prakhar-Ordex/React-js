@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { loginUser } from "../redux/Slices/userSlice";
 
 const Login = () => {
   const { users } = useSelector((state) => state.users);
@@ -22,7 +23,7 @@ const Login = () => {
           findUser.password === data.password
         ) {
           dispatch(loginUser(findUser));
-          navigate("/profile");
+          navigate("/");
         } else {
           alert("Email or Password incorrect");
         }

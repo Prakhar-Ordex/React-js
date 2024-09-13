@@ -32,9 +32,17 @@ export const userSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-      loginUser: (state, action) => {
-        let findUser = users.find((item) => item.email === data.email);
-      state.loginUser = JSON.parse(localStorage.getItem("loginUser"));
+    loginUser: (state, action) => {
+      const data = action.payload;
+      let findUser = state.users.find(
+        (item) => item.email === data.email && item.password === data.password
+      );
+      if (findUser) {
+        state.loginUser = findUser;
+        localStorage.setItem("loginUser", JSON.stringify(findUser));
+      } else {
+          alert("Email or Password incorrect");
+      }
     },
     logoutUser: (state) => {
       state.loginUser = null;
@@ -59,6 +67,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUser, removeUser } = userSlice.actions;
+export const { addUser, loginUser } = userSlice.actions;
 
 export default userSlice.reducer;
