@@ -1,10 +1,12 @@
 import React from "react";
-import {  useDispatch } from "react-redux";
-import { Products } from "../constant/product";
-import { addToCart } from "../redux/slices/cartSlice";
+import {  useDispatch, useSelector } from "react-redux";
+// import { Products } from "../constant/product";
+import { addToCart, removeItem } from "../redux/slices/cartSlice";
 
 const Product = () => {
   const dispatch = useDispatch();
+  const Products = useSelector(state => state.cart.products)
+
   return (
     <div>
       <div className="bg-white">
@@ -43,7 +45,7 @@ const Product = () => {
                 <button className="btn btn-primary mx-3">
                   <strong>{product.price} ₹</strong>
                 </button>
-                {product.quntity > 1 ? (
+                {product.quntity >= 1 ? (
                   <div className="bg-gray-300 rounded-md flex justify-between ">
                     <button
                       className="bg-blue-300 p-0.5 text-2xl px-9"
@@ -54,7 +56,7 @@ const Product = () => {
                     <span className="text-2xl">{product.quntity}</span>
                     <button
                       className="bg-blue-300 p-0.5 text-2xl px-9"
-                      onClick={() => dispatch(removeItem(item))}
+                      onClick={() => dispatch(removeItem(product))}
                     >
                       -
                     </button>

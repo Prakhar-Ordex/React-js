@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Password from "../Components/Password";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../Redux/user/userSlice";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
@@ -13,6 +11,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm();
   const onSubmit = (data) => {
     if (users) {
@@ -83,8 +82,12 @@ const Login = () => {
                   >
                     Password
                   </label>
-                  <Password
-                    handleInput={register("password", {
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="********"
+                    {...register("password", {
                       required: {
                         value: true,
                         message: "passworde is required",
@@ -93,7 +96,7 @@ const Login = () => {
                       pattern: {
                         value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,}$/,
                         message:
-                          "Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, and a number",
+                          "Password must be at least 6 characters long, and include an uppercase letter, a lowercase letter, and a number",
                       },
                     })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"

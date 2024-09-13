@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const state = useSelector((state) => state.cart);
-  // console.log(state.items)
-  // const totalPrice = useSelector(selectCartTotalPrice)
+  
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 right-0 z-10 w-full  ">

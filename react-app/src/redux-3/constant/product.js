@@ -7,7 +7,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3PuckZp",
     description: "Apple iPhone 14 (128 GB) - Blue",
     price: 89999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 5,
@@ -17,7 +17,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3EzeQaC",
     description: "Xiaomi [Smartchoice] Notebookpro ",
     price: 49999,
-    quntity: 1
+    quntity: 0
   },
   {
     id: 7,
@@ -27,7 +27,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3ZeNRdY",
     description: "Xiaomi Pad 6| Qualcomm Snapdragon 870| ",
     price: 29999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ export const Products = [
     amazonLink: "https://amzn.to/44MiYi6",
     description: "Apple iPhone 11 (64GB) - White",
     price: 79999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 6,
@@ -47,7 +47,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3RabsdH",
     description: "Lenovo Tab P12 Pro AMOLED (12.6 inch (32 cm)",
     price: 19999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 3,
@@ -57,7 +57,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3r6XJtv",
     description: "Apple iPhone 13 (128GB) - Blue",
     price: 69999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 4,
@@ -67,7 +67,7 @@ export const Products = [
     amazonLink: "https://amzn.to/44JsK4r",
     description: 'Lenovo IdeaPad Slim 5 Intel Core i5 12450H 14" (35.5cm) ',
     price: 29999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 9,
@@ -77,7 +77,7 @@ export const Products = [
     amazonLink: "https://amzn.to/3Pdsh4F",
     description: "Samsung Galaxy Tab A8 26.69cm (10.5 inch) Display, RAM 4 GB",
     price: 49999,
-    quntity: 1,
+    quntity: 0,
   },
   {
     id: 8,
@@ -87,6 +87,6 @@ export const Products = [
     amazonLink: "https://amzn.to/3r9rvhm",
     description: "Apple MacBook Air Laptop M1 chip, 13.3-inch/33.74",
     price: 89999,
-    quntity: 1,
+    quntity: 0,
   },
 ];
