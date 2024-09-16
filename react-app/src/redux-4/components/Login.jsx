@@ -15,26 +15,32 @@ const Login = () => {
     reset,
   } = useForm();
   const onSubmit = (data) => {
-    if (users) {
-      let findUser = users.find((item) => item.email === data.email);
-      if (findUser) {
-        if (
-          findUser.email === data.email &&
-          findUser.password === data.password
-        ) {
-          dispatch(loginUser(findUser));
-          navigate("/");
-        } else {
-          alert("Email or Password incorrect");
-        }
-      } else {
-        alert("this email id not register");
-        navigate("/register");
-      }
-    } else {
-      alert("you are not  register ");
-      navigate("/register");
+    try {
+      dispatch(loginUser(data));
+      navigate("/");
+    } catch (error) {
+      console.log(error)
     }
+    // if (users) {
+    //   let findUser = users.find((item) => item.email === data.email);
+    //   if (findUser) {
+    //     if (
+    //       findUser.email === data.email &&
+    //       findUser.password === data.password
+    //     ) {
+    //       dispatch(loginUser(findUser));
+    //       navigate("/");
+    //     } else {
+    //       alert("Email or Password incorrect");
+    //     }
+    //   } else {
+    //     alert("this email id not register");
+    //     navigate("/register");
+    //   }
+    // } else {
+    //   alert("you are not  register ");
+    //   navigate("/register");
+    // }
   };
 
   return (

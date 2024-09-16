@@ -20,10 +20,16 @@ const initialState = {
   products: [],
   cart: [],
   total: 0,
-  loading: false,
-  error: null,
+  loading: false
 };
 
+const calculateTotal = (cart) => {
+  return cart
+    .reduce((acc, product) => {
+      return acc + product.price * product.quantity;
+    }, 0)
+    .toFixed(2);
+};
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -36,33 +42,37 @@ export const productSlice = createSlice({
       } else {
         state.cart.push({ ...product, quantity: 1 });
       }
-      state.total += product.price;
-      // state.cart = [...state.cart];
+      state.total = calculateTotal(state.cart);
     },
     removeFromCart: (state, action) => {
       const productId = action.payload;
       state.cart = state.cart.filter((product) => product.id !== productId.id);
-      state.total -= productId.price * productId.quantity;
+      state.total = calculateTotal(state.cart);
     },
     incrementQuantity: (state, action) => {
       const productId = action.payload;
       const product = state.cart.find((x) => x.id === productId.id);
       if (product) {
         product.quantity++;
-        state.total += product.price;
+        state.total = calculateTotal(state.cart);
       }
     },
     decrementQuantity: (state, action) => {
       const productId = action.payload;
       const product = state.cart.find((x) => x.id === productId.id);
       if (product && product.quantity > 1) {
-        state.total -= product.price;
         product.quantity--;
       } else {
         state.cart = state.cart.filter((x) => x.id !== productId.id);
       }
+      state.total = calculateTotal(state.cart);
     },
+    clearCart: (state) => {
+      state.cart = [];
+      state.total = 0;
+    }
   },
+  
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.loading = true;
@@ -73,7 +83,6 @@ export const productSlice = createSlice({
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload;
     });
   },
 });
@@ -83,6 +92,7 @@ export const {
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
+  clearCart
 } = productSlice.actions;
 
 export default productSlice.reducer;

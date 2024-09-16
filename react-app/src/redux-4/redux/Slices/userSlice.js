@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk(
 );
 
 const initialState = {
-  loginUser: localStorage.getItem("loginUser"),
+  loginUser: JSON.parse(localStorage.getItem("loginUser")),
   users: JSON.parse(localStorage.getItem("user")) || [],
 };
 export const userSlice = createSlice({
@@ -41,12 +41,15 @@ export const userSlice = createSlice({
         state.loginUser = findUser;
         localStorage.setItem("loginUser", JSON.stringify(findUser));
       } else {
-          alert("Email or Password incorrect");
+        alert("Email or Password incorrect");
+        throw new Error("Please enter a valid email or password");
       }
     },
     logoutUser: (state) => {
-      state.loginUser = null;
-      localStorage.removeItem("loginUser");
+      if (confirm("are you sure you want to log out?")) {
+        localStorage.removeItem("loginUser");
+        state.loginUser = null;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -67,6 +70,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUser, loginUser } = userSlice.actions;
+export const { addUser, loginUser, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

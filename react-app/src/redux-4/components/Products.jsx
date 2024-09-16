@@ -38,9 +38,7 @@ const Products = () => {
                         {product.title}
                       </h3>
                       <p className="w-64 truncate ">{product.description}</p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.title}
-                      </p>
+                      
                     </div>
                    
                   </div>

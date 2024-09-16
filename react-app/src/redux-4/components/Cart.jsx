@@ -1,20 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { decrementQuantity, incrementQuantity, removeFromCart } from "../redux/Slices/productSlice";
+import { clearCart, decrementQuantity, incrementQuantity, removeFromCart } from "../redux/Slices/productSlice";
 
 const Cart = () => {
   const state = useSelector(state => state.products)
   const dispatch = useDispatch()
   return (
     <div>
-      <div className="container text-center py-16 " style={{ width: "700px" }}>
+      <div className="container text-center py-16 m-auto" style={{ width: "700px" }}>
         {state.cart.length == 0 && (
           <>
-            <h1>Your Cart is Empty</h1>
+            <h1 className="p-2 text-5xl font-bold mb-5">Your Cart is Empty</h1>
             <Link
               to={"/"}
-              className="bg-blue-500 text-2xl text-white rounded-md p-1"
+              className="bg-blue-500 text-2xl text-white rounded-md p-1.5 "
             >
               Continue Shopping...
             </Link>
