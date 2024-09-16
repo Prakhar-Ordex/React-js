@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearCart, decrementQuantity, incrementQuantity, removeFromCart } from "../redux/Slices/productSlice";
@@ -75,7 +74,7 @@ const Cart = () => {
                   className="bg-red-500 text-white rounded-md p-0.5 px-2"
                   onClick={() => dispatch(removeFromCart(item))}
                 >
-                  🧹
+                   ❌
                 </button>
               </div>
             </div>

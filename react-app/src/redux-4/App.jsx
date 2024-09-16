@@ -1,4 +1,3 @@
-import React from "react";
 import Products from "./components/Products";
 import Cart from "./components/Cart";
 import Navbar from "./components/Navbar";
@@ -7,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Login from "./components/Login";
 import Register from "./components/Register";
+
 
 const App = () => {
   return (
@@ -18,6 +18,8 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          {/* <Route path="/users" element={<User />} />
+          <Route path="/edit/:id" element={<Edit />} /> */}
         </Routes>
       </BrowserRouter>
     </Provider>

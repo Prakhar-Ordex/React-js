@@ -1,18 +1,15 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../redux/Slices/userSlice";
 
 const Login = () => {
-  const { users } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
+    formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     try {

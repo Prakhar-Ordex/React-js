@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../redux/Slices/userSlice";
@@ -7,6 +6,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.products);
   const loginUser = useSelector((state) => state.users.loginUser);
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 right-0 z-10 w-full  ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -14,7 +14,6 @@ const Navbar = () => {
           {loginUser ? loginUser.name : "Not Loggin"}
         </span>
 
-       
         <button className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500">
           <span className="text-xl">
             Cart Items Total Price = {state.total} ₹
@@ -39,14 +38,21 @@ const Navbar = () => {
               >
                 Cart
               </Link>
+
               <span className="absolute top-[-12px] right-[-10px] text-red-500 font-bold text-md ">
                 {state.cart.length}
               </span>
             </li>
+            {/* <Link
+              to="/users"
+              className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+            >
+              Users
+            </Link> */}
             {loginUser ? (
               <li
                 className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white "
-                onClick={()=> dispatch(logoutUser())}
+                onClick={() => dispatch(logoutUser())}
               >
                 logout
               </li>
@@ -56,7 +62,6 @@ const Navbar = () => {
                   <Link
                     to="/login"
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white "
-                    // md:dark:text-blue-500
                     aria-current="page"
                   >
                     Login
