@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../redux/Slices/userSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.products);
   const loginUser = useSelector((state) => state.users.loginUser);
+  const navigate = useNavigate();
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 right-0 z-10 w-full  ">
@@ -51,8 +52,13 @@ const Navbar = () => {
             </Link> */}
             {loginUser ? (
               <li
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white "
-                onClick={() => dispatch(logoutUser())}
+                className="block py-5 px-3 text-white bg-orange-700 rounded  md:text-blue-700 md:p-0 dark:text-white "
+                onClick={() => {
+                  if (confirm("are you sure you want to log out?")) {
+                    dispatch(logoutUser());
+                    navigate("/login");
+                  }
+                }}
               >
                 logout
               </li>

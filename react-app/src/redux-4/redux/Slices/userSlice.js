@@ -46,10 +46,8 @@ export const userSlice = createSlice({
       }
     },
     logoutUser: (state) => {
-      if (confirm("are you sure you want to log out?")) {
         localStorage.removeItem("loginUser");
         state.loginUser = null;
-      }
     },
   },
   extraReducers: (builder) => {

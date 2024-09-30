@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ProtectRoute from "./auth/ProtectRoute";
+import Order from "./components/Order";
 
 
 const App = () => {
@@ -14,8 +16,9 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={<ProtectRoute ><Products/></ProtectRoute>} />
+          <Route path="/cart" element={<ProtectRoute ><Cart /></ProtectRoute>} />
+          <Route path="/order" element={<ProtectRoute ><Order /></ProtectRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           {/* <Route path="/users" element={<User />} />

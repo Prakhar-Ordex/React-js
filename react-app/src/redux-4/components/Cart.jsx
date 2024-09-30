@@ -1,13 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { clearCart, decrementQuantity, incrementQuantity, removeFromCart } from "../redux/Slices/productSlice";
+import {
+  clearCart,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from "../redux/Slices/productSlice";
 
 const Cart = () => {
-  const state = useSelector(state => state.products)
-  const dispatch = useDispatch()
+  const state = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   return (
     <div>
-      <div className="container text-center py-16 m-auto" style={{ width: "700px" }}>
+      <div
+        className="container text-center py-16 m-auto"
+        style={{ width: "700px" }}
+      >
         {state.cart.length == 0 && (
           <>
             <h1 className="p-2 text-5xl font-bold mb-5">Your Cart is Empty</h1>
@@ -40,7 +48,7 @@ const Cart = () => {
               />
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {item.title} <span>({item.quantity  })</span>
+                  {item.title} <span>({item.quantity})</span>
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                   {item.description}
@@ -48,7 +56,9 @@ const Cart = () => {
               </div>
             </div>
             <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <strong  className="text-sm leading-6 text-gray-900">{item.price} $</strong>
+              <strong className="text-sm leading-6 text-gray-900">
+                {item.price} $
+              </strong>
 
               <div className="mt-1 flex items-center gap-x-1.5 p-1">
                 <button
@@ -57,9 +67,7 @@ const Cart = () => {
                 >
                   -
                 </button>
-                <div
-                  className="bg-gray-500 text-white rounded-md p-0.5 px-2"
-                >
+                <div className="bg-gray-500 text-white rounded-md p-0.5 px-2">
                   {item.quantity}
                 </div>
                 <button
@@ -74,13 +82,25 @@ const Cart = () => {
                   className="bg-red-500 text-white rounded-md p-0.5 px-2"
                   onClick={() => dispatch(removeFromCart(item))}
                 >
-                   ❌
+                  ❌
                 </button>
               </div>
             </div>
           </li>
         ))}
       </ul>
+      {state.cart.length > 0 && (
+        <div className="container text-center m-auto">
+          <h2 className="text-xl font-bold mb-1">Total: {state.total}$ Only</h2>
+          <Link
+            to={"/order"}
+            className="bg-blue-500 text-2xl text-white rounded-md p-1.5 "
+          >
+            Checkout
+          </Link>
+        </div>
+      )}
+      
     </div>
   );
 };

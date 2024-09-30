@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, fetchProducts } from "../redux/Slices/productSlice";
+import { addToCart, decrementQuantity, fetchProducts, incrementQuantity } from "../redux/Slices/productSlice";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -38,19 +38,37 @@ const Products = () => {
                         {product.title}
                       </h3>
                       <p className="w-64 truncate ">{product.description}</p>
-                      
                     </div>
-                   
                   </div>
                   <button className="btn btn-primary mx-3">
                     <strong>{product.price} $</strong>
                   </button>
-                  <button
-                    className="bg-green-300 rounded-md p-2 "
-                    onClick={() => dispatch(addToCart(product))}
-                  >
-                    Add To Cart
-                  </button>
+                  {state.cart.some((item) => item.id === product.id) ?
+                    (
+                    <div className="mt-1">
+                      <span className="bg-red-300  px-4 py-2 rounded-s-md cursor-pointer"
+                      onClick={()=>dispatch(decrementQuantity(product))}>
+                        -
+                      </span>
+                      <span className="bg-gray-300  px-4 py-2">
+                        {
+                          state.cart.find((item) => item.id === product.id)
+                            .quantity
+                        }
+                      </span>
+                      <span className="bg-blue-300  px-4 py-2 rounded-e-md cursor-pointer"
+                       onClick={()=>dispatch(incrementQuantity(product))}>
+                        +
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      className="bg-green-300 rounded-md p-2 "
+                      onClick={() => dispatch(addToCart(product))}
+                    >
+                      Add To Cart
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
